@@ -36,6 +36,12 @@ namespace CNRailway.Util
             return Path.Combine(directory, file);
         }
 
+        public void ShowErrorMessage(string message)
+        {
+            Console.Error.WriteLine(message);
+            Console.ReadKey();
+        }
+
         private void ShowCurrentValue(string label, string value)
         {
             Console.WriteLine($"{label} is currently set as {value}.");

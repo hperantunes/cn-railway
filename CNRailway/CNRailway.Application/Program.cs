@@ -12,9 +12,15 @@ namespace CNRailway.Application
             var file = ui.GetFullFilePath();
 
             IFileReader reader = new FileReader();
-            var lines = reader.ReadFrom(file);
 
-            lines.ToList().ForEach(line => Console.WriteLine(line));
+            try
+            {
+                var lines = reader.ReadFrom(file);
+                lines.ToList().ForEach(line => Console.WriteLine(line));
+            }
+            catch (ArgumentException e) {
+                ui.ShowErrorMessage(e.Message);
+            }
         }
     }
 }

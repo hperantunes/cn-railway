@@ -7,6 +7,11 @@ namespace CNRailway.Util
     {
         public IEnumerable<string> ReadFrom(string file)
         {
+            if (!File.Exists(file))
+            {
+                throw new System.ArgumentException($"File {file} does not exist.");
+            }
+
             string line;
             using (var reader = File.OpenText(file))
             {

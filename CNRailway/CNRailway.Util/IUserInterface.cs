@@ -5,5 +5,6 @@
         string GetDirectoryPath();
         string GetFileName();
         string GetFullFilePath();
+        void ShowErrorMessage(string message);
     }
 }
