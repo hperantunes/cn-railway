@@ -4,21 +4,13 @@ using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
-    public abstract class Line : ILine, IIncrementableLine
+    public class Line : ILine, IIncrementableLine
     {
         protected Stack<Car> Track { get; private set; }
 
-        public int MaximumCapacity { get; private set; }
-
-        public bool IsFull
-        {
-            get { return MaximumCapacity.Equals(Track.Count); }
-        }
-
-        public Line(int maximumCapacity)
+        public Line()
         {
             Track = new Stack<Car>();
-            MaximumCapacity = maximumCapacity;
         }
 
         public IEnumerable<int> GetCarsPositions(char destination)
@@ -27,21 +19,9 @@ namespace CNRailway.MarshallingYard
             return positions;
         }
 
-        public override string ToString()
+        public virtual void AddCar(Car car)
         {
-            var destinations = Track.Select(car => car.Destination);
-            var representation = string.Concat(destinations.Reverse());
-            return representation.PadLeft(MaximumCapacity, '0');
-        }
-
-        public void AddCar(Car car)
-        {
-            if (IsFull)
-            {
-                throw new InvalidOperationException();
-            }
-
-            car.Position = MaximumCapacity - Track.Count;
+            car.Position = Track.Count;
             Track.Push(car);
         }
     }
