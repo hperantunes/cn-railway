@@ -17,5 +17,10 @@ namespace CNRailway.MarshallingYard
         {
             Destination = destination;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
