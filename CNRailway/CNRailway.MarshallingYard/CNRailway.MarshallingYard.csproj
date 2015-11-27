@@ -47,6 +47,7 @@
     <Compile Include="IIncrementableLine.cs" />
     <Compile Include="ILine.cs" />
     <Compile Include="IDecrementableLine.cs" />
+    <Compile Include="ILinesMap.cs" />
     <Compile Include="IMovement.cs" />
     <Compile Include="INamed.cs" />
     <Compile Include="ISortingLine.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="SortingLine.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="MarshallingYard.cs" />
+    <Compile Include="LinesMap.cs" />
     <Compile Include="TrainLine.cs" />
     <Compile Include="YardLocomotive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
