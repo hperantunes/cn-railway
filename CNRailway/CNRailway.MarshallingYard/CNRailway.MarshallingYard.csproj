@@ -51,14 +51,14 @@
     <Compile Include="IMovement.cs" />
     <Compile Include="INamed.cs" />
     <Compile Include="ISortingLine.cs" />
-    <Compile Include="IMarshallingYard.cs" />
+    <Compile Include="IYard.cs" />
     <Compile Include="IYardLocomotive.cs" />
     <Compile Include="IYardmaster.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="Movement.cs" />
     <Compile Include="SortingLine.cs" />
     <Compile Include="Car.cs" />
-    <Compile Include="MarshallingYard.cs" />
+    <Compile Include="Yard.cs" />
     <Compile Include="LinesMap.cs" />
     <Compile Include="TrainLine.cs" />
     <Compile Include="YardLocomotive.cs" />

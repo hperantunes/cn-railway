@@ -2,7 +2,7 @@
 
 namespace CNRailway.MarshallingYard
 {
-    public interface IMarshallingYard
+    public interface IYard
     {
         IYardmaster Initialize(IEnumerable<IEnumerable<char>> lines);
         ILinesMap GetLinesMap(char destination);

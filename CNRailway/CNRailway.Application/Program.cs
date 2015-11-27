@@ -1,4 +1,5 @@
-﻿using CNRailway.Util;
+﻿using CNRailway.MarshallingYard;
+using CNRailway.Util;
 
 namespace CNRailway.Application
 {
@@ -12,7 +13,7 @@ namespace CNRailway.Application
             IFileReader fileReader = new FileReader();
             IUserInterface ui = new ConsoleUtil(configuration, fileReader);
 
-            var yard = new MarshallingYard.MarshallingYard(idGenerator, configuration);
+            var yard = new Yard(idGenerator, configuration);
 
             var lines = ui.GetSortingLines();
             var yardmaster = yard.Initialize(lines);

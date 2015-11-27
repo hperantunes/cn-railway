@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
-    public class MarshallingYard : IMarshallingYard
+    public class Yard : IYard
     {
         private IIdGenerator IdGenerator { get; set; }
 
@@ -19,7 +19,7 @@ namespace CNRailway.MarshallingYard
 
         private bool Initialized { get; set; }
 
-        public MarshallingYard(IIdGenerator idGenerator, IConfiguration configuration)
+        public Yard(IIdGenerator idGenerator, IConfiguration configuration)
         {
             IdGenerator = idGenerator;
             Configuration = configuration;
