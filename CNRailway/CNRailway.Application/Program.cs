@@ -13,10 +13,11 @@ namespace CNRailway.Application
             IFileReader fileReader = new FileReader();
             IUserInterface ui = new ConsoleUtil(configuration, fileReader);
 
-            var yard = new Yard(idGenerator, configuration);
-
             var lines = ui.GetSortingLines();
-            var yardmaster = yard.Initialize(lines);
+
+            var yard = new Yard(idGenerator, configuration, lines);
+
+            var yardmaster = yard.Initialize();
 
             var destination = ui.GetDestination();
 
@@ -29,6 +30,7 @@ namespace CNRailway.Application
                 ui.ShowMessage(step.ToString());
             }
 
+            ui.ShowMessage("No movements left. Press any key to exit...");
             ui.Wait();
         }
     }
