@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CNRailway.Util;
 
 namespace CNRailway.MarshallingYard
 {
-    public class Movement
+    public class Movement : IMovement
     {
         public INamed OriginLine { get; private set; }
 
