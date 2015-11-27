@@ -26,18 +26,29 @@ namespace CNRailway.Util
 
         public IEnumerable<IEnumerable<char>> GetSortingLines()
         {
-            var path = GetFullFilePath();
-
-            IEnumerable<IEnumerable<char>> fileContents;
             try
             {
-                fileContents = FileReader.ReadFrom(path);
+                return GetSortingLines(false);
             }
             catch (ArgumentException e)
             {
                 ShowErrorMessage(e.Message);
-                return GetSortingLines();
+                return GetSortingLines(true);
             }
+        }
+
+        private IEnumerable<IEnumerable<char>> GetSortingLines(bool forcePromptFileLocation)
+        {
+            string path;
+            if (Configuration.UseDefaultFileLocation && !forcePromptFileLocation)
+            {
+                path = Path.Combine(Configuration.DefaultDirectory, Configuration.DefaultFileName);
+            }
+            else
+            {
+                path = GetFullFilePath();
+            }
+            var fileContents = FileReader.ReadFrom(path);
 
             return fileContents;
         }
@@ -53,33 +64,24 @@ namespace CNRailway.Util
             Write(message);
         }
 
-        private string GetDirectoryPath()
-        {
-            ShowCurrentValue(Constants.Directory, Configuration.DefaultDirectory);
-            var path = PromptNewValue(Constants.Directory);
-
-            return string.IsNullOrWhiteSpace(path) ? Configuration.DefaultDirectory : path;
-        }
-
-        private string GetFileName()
-        {
-            ShowCurrentValue(Constants.FileName, Configuration.DefaultFileName);
-            var fileName = PromptNewValue(Constants.FileName);
-
-            return string.IsNullOrWhiteSpace(fileName) ? Configuration.DefaultFileName : fileName;
-        }
-
         public string GetFullFilePath()
         {
-            if (Configuration.UseDefaultFileLocation)
-            {
-                return Path.Combine(Configuration.DefaultDirectory, Configuration.DefaultFileName);
-            }
-
-            var directory = GetDirectoryPath();
-            var file = GetFileName();
+            var directory = GetValue(Constants.Directory);
+            var file = GetValue(Constants.FileName);
 
             return Path.Combine(directory, file);
+        }
+
+        private string GetValue(string label)
+        {
+            var fileName = PromptNewValue(label);
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                WriteError($"Invalid {label}.");
+                return GetValue(label);
+            }
+
+            return fileName;
         }
 
         private void Write(string message)
@@ -102,14 +104,9 @@ namespace CNRailway.Util
             Console.ReadKey();
         }
 
-        private void ShowCurrentValue(string label, string value)
-        {
-            Write($"{label} is currently set as {value}.");
-        }
-
         private string PromptNewValue(string label)
         {
-            Write($"Set a new {label} or press ENTER to keep:");
+            Write($"Set a new {label}:");
             return Read();
         }
 
