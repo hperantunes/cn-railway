@@ -3,11 +3,16 @@ using System.Collections.Generic;
 
 namespace CNRailway.MarshallingYard
 {
-    public class YardLocomotive : IYardLocomotive
+    public class YardLocomotive : IYardLocomotive, ICapped
     {
         private List<Car> Slots { get; set; }
 
         public int MaximumCapacity { get; private set; }
+
+        public bool IsFull
+        {
+            get { return MaximumCapacity.Equals(Slots.Count); }
+        }
 
         public YardLocomotive(int maximumCapacity)
         {
