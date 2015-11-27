@@ -2,7 +2,7 @@
 
 namespace CNRailway.MarshallingYard
 {
-    public interface ILine
+    public interface ILine : IIncrementableLine
     {
     }
 }
