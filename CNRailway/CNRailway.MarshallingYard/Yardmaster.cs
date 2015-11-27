@@ -31,15 +31,11 @@ namespace CNRailway.MarshallingYard
         private IMovement MoveConvoy(IYardLocomotive locomotive, ILinesMap map, IDecrementableLine origin, IIncrementableLine destination, int amount)
         {
             locomotive.LoadCarsFromLine(origin, amount);
-
             var movement = new Movement(origin, destination, locomotive.Cars.AsEnumerable<INamed>().ToList());
-            map.UpdateDepths((ISortingLine)origin, -movement.Cars.Count());
+            map.UpdateDepths(origin as ISortingLine, -movement.Cars.Count());
 
             locomotive.UnloadAllCarsIntoLine(destination);
-            if (destination is SortingLine)
-            {
-                map.UpdateDepths((ISortingLine)destination, movement.Cars.Count());
-            }
+            map.UpdateDepths(destination as ISortingLine, movement.Cars.Count());
 
             return movement;
         }
