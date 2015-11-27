@@ -11,8 +11,8 @@ namespace CNRailway.Application
             var configuration = new Configuration();
             var idGenerator = new SequentialIdGenerator();
 
-            IFileReader fileReader = new FileReader();
-            IUserInterface ui = new ConsoleUtil(configuration, fileReader);
+            var fileReader = new FileReader();
+            var ui = new ConsoleUtil(configuration, fileReader);
 
             do
             {

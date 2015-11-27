@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CNRailway.MarshallingYard
+﻿namespace CNRailway.MarshallingYard
 {
     public class Car : ICar, INamed
     {
