@@ -19,15 +19,15 @@ namespace CNRailway.MarshallingYard
 
         private bool Initialized { get; set; }
 
-        public Yard(IIdGenerator idGenerator, IConfiguration configuration)
+        public Yard(IIdGenerator idGenerator, IConfiguration configuration, IEnumerable<IEnumerable<char>> lines)
         {
             IdGenerator = idGenerator;
             Configuration = configuration;
+            SortingLines = CreateSortingLines(lines);
         }
 
-        public IYardmaster Initialize(IEnumerable<IEnumerable<char>> lines)
+        public IYardmaster Initialize()
         {
-            SortingLines = CreateSortingLines(lines);
             TrainLine = new TrainLine();
             YardLocomotive = new YardLocomotive(Configuration);
 
