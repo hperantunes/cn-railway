@@ -1,5 +1,7 @@
 ﻿using CNRailway.Util;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
@@ -40,6 +42,12 @@ namespace CNRailway.MarshallingYard
         public Car RemoveCar()
         {
             return Track.Pop();
+        }
+
+        public IEnumerable<int> GetCarsPositions(char destination)
+        {
+            var positions = Track.Where(car => destination.Equals(car.Destination)).Select(car => car.Position);
+            return positions;
         }
 
         public override string ToString()

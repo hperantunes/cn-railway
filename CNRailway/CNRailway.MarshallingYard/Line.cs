@@ -13,12 +13,6 @@ namespace CNRailway.MarshallingYard
             Track = new Stack<Car>();
         }
 
-        public IEnumerable<int> GetCarsPositions(char destination)
-        {
-            var positions = Track.Where(car => destination.Equals(car.Destination)).Select(car => car.Position);
-            return positions;
-        }
-
         public virtual void AddCar(Car car)
         {
             car.Position = Track.Count;
