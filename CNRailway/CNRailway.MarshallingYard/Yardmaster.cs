@@ -15,7 +15,7 @@ namespace CNRailway.MarshallingYard
             YardLocomotive = yardLocomotive;
         }
 
-        public IEnumerable<IMovement> AssembleTrainToDestination(ILinesMap map)
+        public IEnumerable<IMovement> AssembleTrain(ILinesMap map)
         {
             var movements = new List<IMovement>();
             Tuple<IDecrementableLine, IIncrementableLine, int> directions;

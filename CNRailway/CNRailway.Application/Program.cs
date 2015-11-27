@@ -23,7 +23,7 @@ namespace CNRailway.Application
             var destination = ui.GetDestination();
             var linesMap = yard.GetLinesMap(destination);
 
-            var steps = yardmaster.AssembleTrainToDestination(linesMap);
+            var steps = yardmaster.AssembleTrain(linesMap);
 
             foreach (var step in steps)
             {
