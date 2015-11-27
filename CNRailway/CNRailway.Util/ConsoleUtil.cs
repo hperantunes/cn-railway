@@ -36,7 +36,7 @@ namespace CNRailway.Util
             catch (ArgumentException e)
             {
                 ShowErrorMessage(e.Message);
-                return Enumerable.Empty<IEnumerable<char>>();
+                return GetSortingLines();
             }
 
             return fileContents;
