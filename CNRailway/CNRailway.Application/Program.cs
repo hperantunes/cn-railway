@@ -1,5 +1,6 @@
 ﻿using CNRailway.MarshallingYard;
 using CNRailway.Util;
+using System.Linq;
 
 namespace CNRailway.Application
 {
@@ -13,25 +14,50 @@ namespace CNRailway.Application
             IFileReader fileReader = new FileReader();
             IUserInterface ui = new ConsoleUtil(configuration, fileReader);
 
-            var lines = ui.GetSortingLines();
-
-            var yard = new Yard(idGenerator, configuration, lines);
-
-            var yardmaster = yard.Initialize();
-
-            var destination = ui.GetDestination();
-
-            var linesMap = yard.GetLinesMap(destination);
-
-            var steps = yardmaster.AssembleTrain(linesMap);
-
-            foreach (var step in steps)
+            do
             {
-                ui.ShowMessage(step.ToString());
-            }
+                // Load sorting lines from file or prompt the user for file location
+                var lines = ui.GetSortingLines();
+                var yard = new Yard(idGenerator, configuration, lines);
+                var yardmaster = yard.Initialize();
 
-            ui.ShowMessage("No movements left. Press any key to exit...");
-            ui.Wait();
+                // Show initial sorting lines
+                ui.BeginSection();
+                ui.ShowMessage("Initial sorting lines:");
+                var sortingLines = yard.GetSortingLines().Select(line => line.ToString());
+                ui.ShowList(sortingLines);
+
+                // Prompt user for destination
+                ui.BeginSection();
+                var destination = ui.GetDestination();
+
+                // Create navigational map and move cars
+                var linesMap = yard.GetLinesMap(destination);
+                var steps = yardmaster.AssembleTrain(linesMap);
+
+                // Show list of steps
+                ui.BeginSection();
+                ui.ShowMessage("Movements:");
+                ui.ShowList(steps.Select(step => step.ToString()));
+
+                // Show total of movements
+                steps.Select(step => step.ToString());
+                ui.ShowMessage($"Total of movements: {steps.Count()}.");
+
+                // Show final sorting lines
+                ui.BeginSection();
+                ui.ShowMessage("Final sorting lines:");
+                sortingLines = yard.GetSortingLines().Select(line => line.ToString());
+                ui.ShowList(sortingLines);
+
+                // Show train line
+                ui.BeginSection();
+                ui.ShowMessage("Train line:");
+                var trainLine = yard.TrainLine.ToString();
+                ui.ShowList(new[] { trainLine });
+                ui.ShowMessage($"Total of cars in train line: {trainLine.Count()}.");
+
+            } while (!ui.HasUserChosenToExit());
         }
     }
 }
