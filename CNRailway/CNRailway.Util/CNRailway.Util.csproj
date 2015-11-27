@@ -42,8 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
     <Compile Include="ConsoleUtil.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="FileReader.cs" />
+    <Compile Include="IConfiguration.cs" />
+    <Compile Include="IIdGenerator.cs" />
+    <Compile Include="SequentialIdGenerator.cs" />
     <Compile Include="IUserInterface.cs" />
     <Compile Include="IFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
