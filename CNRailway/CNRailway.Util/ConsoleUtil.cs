@@ -6,32 +6,27 @@ namespace CNRailway.Util
 {
     public class ConsoleUtil : IUserInterface
     {
-        private const string DIRECTORY_LABEL = "Directory";
-        private const string FILENAME_LABEL = "File Name";
+        private IConfiguration Configuration { get; set; }
 
-        private readonly string DefaultDirectory;
-        private readonly string DefaultFileName;
-
-        public ConsoleUtil()
+        public ConsoleUtil(IConfiguration configuration)
         {
-            DefaultDirectory = ConfigurationManager.AppSettings["DefaultDirectoryPath"];
-            DefaultFileName = ConfigurationManager.AppSettings["DefaultFileName"];
+            Configuration = configuration;
         }
 
         public string GetDirectoryPath()
         {
-            ShowCurrentValue(DIRECTORY_LABEL, DefaultDirectory);
-            var path = PromptNewValue(DIRECTORY_LABEL);
+            ShowCurrentValue(Constants.Directory, Configuration.DefaultDirectory);
+            var path = PromptNewValue(Constants.Directory);
 
-            return string.IsNullOrWhiteSpace(path) ? DefaultDirectory : path;
+            return string.IsNullOrWhiteSpace(path) ? Configuration.DefaultDirectory : path;
         }
 
         public string GetFileName()
         {
-            ShowCurrentValue(FILENAME_LABEL, DefaultFileName);
-            var fileName = PromptNewValue(FILENAME_LABEL);
+            ShowCurrentValue(Constants.FileName, Configuration.DefaultFileName);
+            var fileName = PromptNewValue(Constants.FileName);
 
-            return string.IsNullOrWhiteSpace(fileName) ? DefaultFileName : fileName;
+            return string.IsNullOrWhiteSpace(fileName) ? Configuration.DefaultFileName : fileName;
         }
 
         public string GetFullFilePath()
