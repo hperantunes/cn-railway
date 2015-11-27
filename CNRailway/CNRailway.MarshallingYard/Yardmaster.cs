@@ -19,9 +19,9 @@ namespace CNRailway.MarshallingYard
             SortingLines = sortingLines.ToList();
         }
 
-        public IEnumerable<string> AssembleTrainToDestination(char destination)
+        public IEnumerable<IMovement> AssembleTrainToDestination(char destination)
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<IMovement>();
         }
     }
 }

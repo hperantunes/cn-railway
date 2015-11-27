@@ -4,6 +4,6 @@ namespace CNRailway.MarshallingYard
 {
     public interface IYardmaster
     {
-        IEnumerable<string> AssembleTrainToDestination(char destination);
+        IEnumerable<IMovement> AssembleTrainToDestination(char destination);
     }
 }
