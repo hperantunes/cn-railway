@@ -38,7 +38,7 @@ namespace CNRailway.MarshallingYard
             locomotive.UnloadAllCarsIntoLine(destination);
             if (destination is SortingLine)
             {
-                map.UpdateDepths((ISortingLine)destination, -movement.Cars.Count());
+                map.UpdateDepths((ISortingLine)destination, movement.Cars.Count());
             }
 
             return movement;
