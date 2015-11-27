@@ -93,7 +93,7 @@ namespace CNRailway.Util
         public bool HasUserChosenToExit()
         {
             BeginSection();
-            Write("Press the ESCAPE to exit or any other key to repeat...");
+            Write("Press the ESCAPE to exit or any other key to restart the process...");
             return Console.ReadKey(true).Key == ConsoleKey.Escape;
         }
 
