@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace CNRailway.Util
 {
@@ -8,12 +9,51 @@ namespace CNRailway.Util
     {
         private IConfiguration Configuration { get; set; }
 
-        public ConsoleUtil(IConfiguration configuration)
+        private IFileReader FileReader { get; set; }
+
+        public ConsoleUtil(IConfiguration configuration, IFileReader fileReader)
         {
             Configuration = configuration;
+            FileReader = fileReader;
         }
 
-        public string GetDirectoryPath()
+        public char GetDestination()
+        {
+            var input = PromptDestination();
+            var destination = input.ToCharArray().First();
+            return destination;
+        }
+
+        public IEnumerable<IEnumerable<char>> GetSortingLines()
+        {
+            var path = GetFullFilePath();
+
+            IEnumerable<IEnumerable<char>> fileContents;
+            try
+            {
+                fileContents = FileReader.ReadFrom(path);
+            }
+            catch (ArgumentException e)
+            {
+                ShowErrorMessage(e.Message);
+                return Enumerable.Empty<IEnumerable<char>>();
+            }
+
+            return fileContents;
+        }
+
+        public void ShowErrorMessage(string message)
+        {
+            WriteError(message);
+            Wait();
+        }
+
+        public void ShowMessage(string message)
+        {
+            Write(message);
+        }
+
+        private string GetDirectoryPath()
         {
             ShowCurrentValue(Constants.Directory, Configuration.DefaultDirectory);
             var path = PromptNewValue(Constants.Directory);
@@ -21,7 +61,7 @@ namespace CNRailway.Util
             return string.IsNullOrWhiteSpace(path) ? Configuration.DefaultDirectory : path;
         }
 
-        public string GetFileName()
+        private string GetFileName()
         {
             ShowCurrentValue(Constants.FileName, Configuration.DefaultFileName);
             var fileName = PromptNewValue(Constants.FileName);
@@ -35,19 +75,6 @@ namespace CNRailway.Util
             var file = GetFileName();
 
             return Path.Combine(directory, file);
-        }
-
-        public char GetDestination()
-        {
-            var input = PromptDestination();
-            var destination = input.ToCharArray().First();
-            return destination;
-        }
-
-        public void ShowErrorMessage(string message)
-        {
-            WriteError(message);
-            Wait();
         }
 
         private void Write(string message)
