@@ -10,18 +10,38 @@ namespace CNRailway.MarshallingYard
 
         private ILine TrainLine { get; set; }
 
-        private List<ISortingLine> SortingLines { get; set; }
-
-        public Yardmaster(IYardLocomotive yardLocomotive, ILine trainLine, IEnumerable<ISortingLine> sortingLines)
+        public Yardmaster(IYardLocomotive yardLocomotive)
         {
             YardLocomotive = yardLocomotive;
-            TrainLine = trainLine;
-            SortingLines = sortingLines.ToList();
         }
 
-        public IEnumerable<IMovement> AssembleTrainToDestination(char destination)
+        public IEnumerable<IMovement> AssembleTrainToDestination(ILinesMap map)
         {
-            return Enumerable.Empty<IMovement>();
+            var movements = new List<IMovement>();
+            Tuple<IDecrementableLine, IIncrementableLine, int> directions;
+            while ((directions = map.GetInstructions()) != null)
+            {
+                var movement = MoveConvoy(YardLocomotive, map, directions.Item1, directions.Item2, directions.Item3);
+                movements.Add(movement);
+            }
+
+            return movements;
+        }
+
+        private IMovement MoveConvoy(IYardLocomotive locomotive, ILinesMap map, IDecrementableLine origin, IIncrementableLine destination, int amount)
+        {
+            locomotive.LoadCarsFromLine(origin, amount);
+
+            var movement = new Movement(origin, destination, locomotive.Cars.AsEnumerable<INamed>().ToList());
+            map.UpdateDepths((ISortingLine)origin, -movement.Cars.Count());
+
+            locomotive.UnloadAllCarsIntoLine(destination);
+            if (destination is SortingLine)
+            {
+                map.UpdateDepths((ISortingLine)destination, -movement.Cars.Count());
+            }
+
+            return movement;
         }
     }
 }

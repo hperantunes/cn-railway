@@ -1,5 +1,4 @@
 ﻿using CNRailway.Util;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,10 +31,8 @@ namespace CNRailway.MarshallingYard
 
         public void LoadCarsFromLine(IDecrementableLine line, int amount)
         {
-            if (amount + Slots.Count > MaximumCapacity)
-            {
-                throw new InvalidOperationException();
-            }
+            // Do not load more cars than the locomotive's maximum capacity
+            amount = amount > MaximumCapacity ? MaximumCapacity : amount;
 
             while (amount-- > 0)
             {

@@ -19,18 +19,14 @@ namespace CNRailway.MarshallingYard
             SortingLinesMap = sortingLines.ToDictionary(key => key, value => value.GetPositions(destination).Select(position => value.Count - 1 - position).ToList());
         }
 
-        public void IncreaseDepth(ISortingLine line, int amount)
+        public void UpdateDepths(ISortingLine line, int amount)
         {
-            SortingLinesMap[line].Select(depth => depth += amount);
+            var depths = SortingLinesMap[line].Select(depth => depth += amount).ToList();
+            SortingLinesMap[line].Clear();
+            SortingLinesMap[line].AddRange(depths.Where(depth => depth >= 0));
         }
 
-        public void DecreaseDepth(ISortingLine line, int amount)
-        {
-            SortingLinesMap[line].Select(depth => depth -= amount);
-            SortingLinesMap[line].RemoveAll(depth => depth < 0);
-        }
-
-        public Tuple<IDecrementableLine, IIncrementableLine, int> GetDirections()
+        public Tuple<IDecrementableLine, IIncrementableLine, int> GetInstructions()
         {
             var readyCars = GetReadyCars();
             if (readyCars != null)
@@ -60,7 +56,7 @@ namespace CNRailway.MarshallingYard
             int amount = 1;
             for (var i = 0; i < depths.Count - 1; i++)
             {
-                if (depths[i - 1] - depths[i] > 0)
+                if (depths[i + 1] - depths[i] > 0)
                 {
                     break;
                 }

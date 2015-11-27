@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CNRailway.Util;
 
@@ -13,9 +10,11 @@ namespace CNRailway.MarshallingYard
 
         private IConfiguration Configuration { get; set; }
 
-        private IFileReader FileReader { get; set; }
+        private IEnumerable<ISortingLine> SortingLines { get; set; }
 
-        private IUserInterface UserInterface { get; set; }
+        private ILine TrainLine { get; set; }
+
+        private IYardLocomotive YardLocomotive { get; set; }
 
         public MarshallingYard(IIdGenerator idGenerator, IConfiguration configuration)
         {
@@ -25,12 +24,18 @@ namespace CNRailway.MarshallingYard
 
         public IYardmaster Initialize(IEnumerable<IEnumerable<char>> lines)
         {
-            var yardLocomotive = new YardLocomotive(Configuration);
-            var trainLine = new TrainLine();
-            var sortingLines = CreateSortingLines(lines);
-            
-            var yardmaster = new Yardmaster(yardLocomotive, trainLine, sortingLines);
+            SortingLines = CreateSortingLines(lines);
+            TrainLine = new TrainLine();
+            YardLocomotive = new YardLocomotive(Configuration);
+
+            var yardmaster = new Yardmaster(YardLocomotive);
             return yardmaster;
+        }
+
+        public ILinesMap GetLinesMap(char destination)
+        {
+            var linesMap = new LinesMap(TrainLine, SortingLines, destination);
+            return linesMap;
         }
 
         private Car CreateCar(char destination)
@@ -61,7 +66,8 @@ namespace CNRailway.MarshallingYard
 
         private IEnumerable<ISortingLine> CreateSortingLines(IEnumerable<IEnumerable<char>> lines)
         {
-            foreach (var destinations in lines) {
+            foreach (var destinations in lines)
+            {
                 var sortingLine = CreateSortingLine(IdGenerator.NewId, destinations);
                 yield return sortingLine;
             }

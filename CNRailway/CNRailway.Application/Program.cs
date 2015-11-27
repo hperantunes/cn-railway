@@ -1,6 +1,7 @@
 ﻿using CNRailway.Util;
 using System;
 using System.Collections.Generic;
+using CNRailway.MarshallingYard;
 
 namespace CNRailway.Application
 {
@@ -9,29 +10,25 @@ namespace CNRailway.Application
         public static void Main(string[] args)
         {
             var configuration = new Configuration();
-
-            IUserInterface ui = new ConsoleUtil(configuration);
-            var filePath = ui.GetFullFilePath();
+            var idGenerator = new SequentialIdGenerator();
 
             IFileReader fileReader = new FileReader();
-            IEnumerable<IEnumerable<char>> fileContents;
-            try
-            {
-                fileContents = fileReader.ReadFrom(filePath);
-            }
-            catch (ArgumentException e)
-            {
-                ui.ShowErrorMessage(e.Message);
-                return;
-            }
+            IUserInterface ui = new ConsoleUtil(configuration, fileReader);
 
-            var idGenerator = new SequentialIdGenerator();
             var yard = new MarshallingYard.MarshallingYard(idGenerator, configuration);
-            var yardmaster = yard.Initialize(fileContents);
+
+            var lines = ui.GetSortingLines();
+            var yardmaster = yard.Initialize(lines);
 
             var destination = ui.GetDestination();
+            var linesMap = yard.GetLinesMap(destination);
 
-            var steps = yardmaster.AssembleTrainToDestination(destination);
+            var steps = yardmaster.AssembleTrainToDestination(linesMap);
+
+            foreach (var step in steps)
+            {
+                ui.ShowMessage(step.ToString());
+            }
         }
     }
 }
