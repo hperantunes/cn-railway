@@ -2,11 +2,9 @@
 
 namespace CNRailway.MarshallingYard
 {
-    public interface ISortingLine : IIncrementableLine, IDecrementableLine
+    public interface ISortingLine : ILine, IIncrementableLine, IDecrementableLine, ICapped
     {
         int Id { get; }
-        int Count { get; }
         IEnumerable<int> GetPositions(char destination);
-        bool ContainsCar(char destination);
     }
 }

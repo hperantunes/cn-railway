@@ -10,6 +10,11 @@ namespace CNRailway.MarshallingYard
 
         public abstract string Name { get; }
 
+        public int Count
+        {
+            get { return Track.Count; }
+        }
+
         public Line()
         {
             Track = new Stack<Car>();

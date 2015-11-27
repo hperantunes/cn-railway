@@ -12,6 +12,11 @@ namespace CNRailway.MarshallingYard
 
         public int MaximumCapacity { get; private set; }
 
+        public int OpenSlots
+        {
+            get { return MaximumCapacity - Slots.Count; }
+        }
+
         public bool IsFull
         {
             get { return MaximumCapacity.Equals(Slots.Count); }

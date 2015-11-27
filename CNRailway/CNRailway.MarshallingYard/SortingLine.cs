@@ -13,9 +13,9 @@ namespace CNRailway.MarshallingYard
 
         public int MaximumCapacity { get; private set; }
 
-        public int Count
+        public int OpenSlots
         {
-            get { return Track.Count; }
+            get { return MaximumCapacity - Track.Count; }
         }
 
         public override string Name
@@ -47,11 +47,6 @@ namespace CNRailway.MarshallingYard
         public Car RemoveCar()
         {
             return Track.Pop();
-        }
-
-        public bool ContainsCar(char destination)
-        {
-            return Track.Any(car => destination.Equals(car.Destination));
         }
 
         public IEnumerable<int> GetPositions(char destination)
