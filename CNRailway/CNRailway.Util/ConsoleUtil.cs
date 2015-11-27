@@ -72,6 +72,11 @@ namespace CNRailway.Util
             return Path.Combine(directory, file);
         }
 
+        public void Wait()
+        {
+            ReadKey();
+        }
+
         private string GetValue(string label)
         {
             var fileName = PromptNewValue(label);
@@ -99,7 +104,7 @@ namespace CNRailway.Util
             return Console.ReadLine();
         }
 
-        private void Wait()
+        private void ReadKey()
         {
             Console.ReadKey();
         }

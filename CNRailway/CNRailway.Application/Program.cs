@@ -19,6 +19,7 @@ namespace CNRailway.Application
             var yardmaster = yard.Initialize(lines);
 
             var destination = ui.GetDestination();
+
             var linesMap = yard.GetLinesMap(destination);
 
             var steps = yardmaster.AssembleTrain(linesMap);
@@ -27,6 +28,8 @@ namespace CNRailway.Application
             {
                 ui.ShowMessage(step.ToString());
             }
+
+            ui.Wait();
         }
     }
 }
