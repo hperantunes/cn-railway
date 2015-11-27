@@ -1,6 +1,7 @@
 ﻿using CNRailway.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
@@ -15,6 +16,11 @@ namespace CNRailway.MarshallingYard
         public bool IsFull
         {
             get { return MaximumCapacity.Equals(Slots.Count); }
+        }
+
+        public IEnumerable<Car> Cars
+        {
+            get { return Slots.AsEnumerable(); }
         }
 
         public YardLocomotive(IConfiguration configuration)
