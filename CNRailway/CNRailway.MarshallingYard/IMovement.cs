@@ -6,6 +6,6 @@ namespace CNRailway.MarshallingYard
     {
         INamed OriginLine { get; }
         INamed DestinationLine { get; }
-        IEnumerable<ICar> Cars { get; }
+        IEnumerable<INamed> Cars { get; }
     }
 }
