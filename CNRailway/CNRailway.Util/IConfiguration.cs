@@ -7,5 +7,6 @@
         int YardLocomotiveMaximumCapacity { get; }
         int SortingLineMaximumCapacity { get; }
         char EmptySlotCharacter { get; }
+        bool UseDefaultFileLocation { get; }
     }
 }

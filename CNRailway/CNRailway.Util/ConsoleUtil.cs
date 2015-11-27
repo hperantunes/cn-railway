@@ -71,6 +71,11 @@ namespace CNRailway.Util
 
         public string GetFullFilePath()
         {
+            if (Configuration.UseDefaultFileLocation)
+            {
+                return Path.Combine(Configuration.DefaultDirectory, Configuration.DefaultFileName);
+            }
+
             var directory = GetDirectoryPath();
             var file = GetFileName();
 

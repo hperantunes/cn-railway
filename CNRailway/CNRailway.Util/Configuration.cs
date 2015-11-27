@@ -29,5 +29,10 @@ namespace CNRailway.Util
         {
             get { return Convert.ToInt32(ConfigurationManager.AppSettings["YardLocomotiveMaximumCapacity"]); }
         }
+
+        public bool UseDefaultFileLocation
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["UseDefaultFileLocation"]); }
+        }
     }
 }
