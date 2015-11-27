@@ -4,9 +4,11 @@ using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
-    public class Line : ILine, IIncrementableLine
+    public abstract class Line : ILine, IIncrementableLine
     {
         protected Stack<Car> Track { get; private set; }
+
+        public abstract string Name { get; }
 
         public Line()
         {

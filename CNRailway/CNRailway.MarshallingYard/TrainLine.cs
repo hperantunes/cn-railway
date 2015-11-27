@@ -2,9 +2,9 @@
 
 namespace CNRailway.MarshallingYard
 {
-    public class TrainLine : Line, INamed
+    public class TrainLine : Line
     {
-        public string Name
+        public override string Name
         {
             get { return Constants.TrainLine; }
         }

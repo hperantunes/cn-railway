@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
-    public class SortingLine : Line, ISortingLine, IDecrementableLine, ICapped, INamed
+    public class SortingLine : Line, ISortingLine, IDecrementableLine, ICapped
     {
         private IConfiguration Configuration { get; set; }
 
@@ -13,7 +13,12 @@ namespace CNRailway.MarshallingYard
 
         public int MaximumCapacity { get; private set; }
 
-        public string Name
+        public int Count
+        {
+            get { return Track.Count; }
+        }
+
+        public override string Name
         {
             get { return $"{Constants.Line} {Id}"; }
         }
@@ -44,7 +49,12 @@ namespace CNRailway.MarshallingYard
             return Track.Pop();
         }
 
-        public IEnumerable<int> GetCarsPositions(char destination)
+        public bool ContainsCar(char destination)
+        {
+            return Track.Any(car => destination.Equals(car.Destination));
+        }
+
+        public IEnumerable<int> GetPositions(char destination)
         {
             var positions = Track.Where(car => destination.Equals(car.Destination)).Select(car => car.Position);
             return positions;

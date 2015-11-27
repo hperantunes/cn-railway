@@ -1,6 +1,6 @@
 ﻿namespace CNRailway.MarshallingYard
 {
-    public interface IIncrementableLine
+    public interface IIncrementableLine : INamed
     {
         void AddCar(Car car);
     }

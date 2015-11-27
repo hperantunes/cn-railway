@@ -1,6 +1,6 @@
 ﻿namespace CNRailway.MarshallingYard
 {
-    public interface IDecrementableLine
+    public interface IDecrementableLine : INamed
     {
         Car RemoveCar();
     }

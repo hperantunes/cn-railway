@@ -5,6 +5,8 @@ namespace CNRailway.MarshallingYard
     public interface ISortingLine
     {
         int Id { get; }
-        IEnumerable<int> GetCarsPositions(char destination);
+        int Count { get; }
+        IEnumerable<int> GetPositions(char destination);
+        bool ContainsCar(char destination);
     }
 }
