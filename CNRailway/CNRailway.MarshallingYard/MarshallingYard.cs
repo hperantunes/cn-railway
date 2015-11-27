@@ -26,7 +26,7 @@ namespace CNRailway.MarshallingYard
         public IYardmaster Initialize(IEnumerable<IEnumerable<char>> lines)
         {
             var yardLocomotive = new YardLocomotive(Configuration);
-            var trainLine = new Line();
+            var trainLine = new TrainLine();
             var sortingLines = CreateSortingLines(lines);
             
             var yardmaster = new Yardmaster(yardLocomotive, trainLine, sortingLines);
