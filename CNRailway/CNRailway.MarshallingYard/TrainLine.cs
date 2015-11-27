@@ -6,7 +6,7 @@ namespace CNRailway.MarshallingYard
     {
         public override string Name
         {
-            get { return Constants.TrainLine; }
+            get { return Constants.Labels.TrainLine; }
         }
     }
 }

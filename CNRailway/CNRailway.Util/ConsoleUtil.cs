@@ -64,10 +64,23 @@ namespace CNRailway.Util
             Write(message);
         }
 
+        public void ShowList(IEnumerable<string> list)
+        {
+            foreach (var item in list)
+            {
+                Write(string.Concat(Constants.UI.ItemListBullet, item));
+            }
+        }
+
+        public void BeginSection()
+        {
+            Write(string.Concat(new string(Constants.UI.SectionSeparator, Constants.UI.SectionSeparatorSize), Environment.NewLine));
+        }
+
         public string GetFullFilePath()
         {
-            var directory = GetValue(Constants.Directory);
-            var file = GetValue(Constants.FileName);
+            var directory = GetValue(Constants.Labels.Directory);
+            var file = GetValue(Constants.Labels.FileName);
 
             return Path.Combine(directory, file);
         }
@@ -75,6 +88,13 @@ namespace CNRailway.Util
         public void Wait()
         {
             ReadKey();
+        }
+
+        public bool HasUserChosenToExit()
+        {
+            BeginSection();
+            Write("Press the ESCAPE to exit or any other key to repeat...");
+            return Console.ReadKey(true).Key == ConsoleKey.Escape;
         }
 
         private string GetValue(string label)
@@ -126,7 +146,7 @@ namespace CNRailway.Util
                 return PromptDestination();
             }
 
-            return input;
+            return input.ToUpper();
         }
 
     }

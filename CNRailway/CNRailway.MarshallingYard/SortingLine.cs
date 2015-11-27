@@ -20,7 +20,7 @@ namespace CNRailway.MarshallingYard
 
         public override string Name
         {
-            get { return $"{Constants.Line} {Id}"; }
+            get { return $"{Constants.Labels.Line} {Id}"; }
         }
 
         public bool IsFull
