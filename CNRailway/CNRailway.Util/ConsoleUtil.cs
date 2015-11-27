@@ -9,8 +9,14 @@ namespace CNRailway.Util
         private const string DIRECTORY_LABEL = "Directory";
         private const string FILENAME_LABEL = "File Name";
 
-        private readonly string DefaultDirectory = ConfigurationManager.AppSettings["DefaultDirectoryPath"];
-        private readonly string DefaultFileName = ConfigurationManager.AppSettings["DefaultFileName"];
+        private readonly string DefaultDirectory;
+        private readonly string DefaultFileName;
+
+        public ConsoleUtil()
+        {
+            DefaultDirectory = ConfigurationManager.AppSettings["DefaultDirectoryPath"];
+            DefaultFileName = ConfigurationManager.AppSettings["DefaultFileName"];
+        }
 
         public string GetDirectoryPath()
         {
