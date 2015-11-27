@@ -2,7 +2,7 @@
 
 namespace CNRailway.MarshallingYard
 {
-    public interface ISortingLine
+    public interface ISortingLine : IIncrementableLine, IDecrementableLine
     {
         int Id { get; }
         int Count { get; }

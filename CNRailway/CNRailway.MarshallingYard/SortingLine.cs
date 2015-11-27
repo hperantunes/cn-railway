@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
-    public class SortingLine : Line, ISortingLine, IDecrementableLine, ICapped
+    public class SortingLine : Line, ISortingLine, ICapped
     {
         private IConfiguration Configuration { get; set; }
 
