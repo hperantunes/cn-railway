@@ -19,7 +19,7 @@ namespace CNRailway.MarshallingYard
         {
             var movements = new List<IMovement>();
             Tuple<IDecrementableLine, IIncrementableLine, int> directions;
-            while ((directions = map.GetInstructions()) != null)
+            while ((directions = map.GetInstruction()) != null)
             {
                 var movement = MoveConvoy(YardLocomotive, map, directions.Item1, directions.Item2, directions.Item3);
                 movements.Add(movement);

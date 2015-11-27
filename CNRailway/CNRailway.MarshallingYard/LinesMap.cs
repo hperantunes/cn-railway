@@ -26,7 +26,7 @@ namespace CNRailway.MarshallingYard
             SortingLinesMap[line].AddRange(depths.Where(depth => depth >= 0));
         }
 
-        public Tuple<IDecrementableLine, IIncrementableLine, int> GetInstructions()
+        public Tuple<IDecrementableLine, IIncrementableLine, int> GetInstruction()
         {
             var readyCars = GetReadyCars();
             if (readyCars != null)
@@ -67,6 +67,11 @@ namespace CNRailway.MarshallingYard
 
             // Return origin line and amount of cars ready to remove
             return new Tuple<IDecrementableLine, int>(line.Key, amount);
+        }
+
+        private Tuple<IDecrementableLine, IIncrementableLine, int> MakeRoom()
+        {
+
         }
     }
 }
