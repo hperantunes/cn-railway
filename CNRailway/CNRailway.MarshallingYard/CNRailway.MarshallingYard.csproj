@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICar.cs" />
+    <Compile Include="IIncrementableLine.cs" />
     <Compile Include="ILine.cs" />
+    <Compile Include="IDecrementableLine.cs" />
     <Compile Include="ISortingLine.cs" />
     <Compile Include="IYardLocomotive.cs" />
     <Compile Include="IYardmaster.cs" />

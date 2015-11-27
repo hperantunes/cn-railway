@@ -1,6 +1,6 @@
 ﻿namespace CNRailway.MarshallingYard
 {
-    public class SortingLine : Line, ISortingLine
+    public class SortingLine : Line, IDecrementableLine
     {
         public int Id { get; private set; }
 

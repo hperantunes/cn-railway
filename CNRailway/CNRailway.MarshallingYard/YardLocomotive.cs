@@ -15,7 +15,7 @@ namespace CNRailway.MarshallingYard
             Slots = new List<Car>();
         }
 
-        public void LoadCarsFromLine(ISortingLine sortingLine, int amount)
+        public void LoadCarsFromLine(IDecrementableLine line, int amount)
         {
             if (amount + Slots.Count > MaximumCapacity)
             {
@@ -24,12 +24,12 @@ namespace CNRailway.MarshallingYard
 
             while (amount-- > 0)
             {
-                var car = sortingLine.RemoveCar();
+                var car = line.RemoveCar();
                 Slots.Add(car);
             }
         }
 
-        public void UnloadAllCarsIntoLine(ILine line)
+        public void UnloadAllCarsIntoLine(IIncrementableLine line)
         {
             Slots.ForEach(car => line.AddCar(car));
             Slots.Clear();

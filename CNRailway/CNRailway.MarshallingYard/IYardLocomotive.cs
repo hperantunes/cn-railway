@@ -3,7 +3,7 @@
     public interface IYardLocomotive
     {
         int MaximumCapacity { get; }
-        void LoadCarsFromLine(ISortingLine sortingLine, int amount);
-        void UnloadAllCarsIntoLine(ILine line);
+        void LoadCarsFromLine(IDecrementableLine line, int amount);
+        void UnloadAllCarsIntoLine(IIncrementableLine line);
     }
 }
