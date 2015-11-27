@@ -24,5 +24,11 @@ namespace CNRailway.MarshallingYard
             car.Position = Track.Count;
             Track.Push(car);
         }
+
+        public override string ToString()
+        {
+            var destinations = Track.OrderBy(car => car.Position).Select(car => car.Destination);
+            return string.Concat(destinations.Reverse());
+        }
     }
 }

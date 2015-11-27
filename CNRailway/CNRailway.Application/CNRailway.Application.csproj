@@ -53,6 +53,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CNRailway.MarshallingYard\CNRailway.MarshallingYard.csproj">
+      <Project>{9ac3d873-9ac3-4513-aee3-5de051bccfdb}</Project>
+      <Name>CNRailway.MarshallingYard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CNRailway.Util\CNRailway.Util.csproj">
       <Project>{059d5ca9-a8de-4694-874c-b4c05dcd7397}</Project>
       <Name>CNRailway.Util</Name>

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using CNRailway.Util;
 
 namespace CNRailway.MarshallingYard
 {
-    public class Yard : IYard
+    public class MarshallingYard : IMarshallingYard
     {
         private int SortingLineMaximumCapacity { get; set; }
 
@@ -13,16 +15,22 @@ namespace CNRailway.MarshallingYard
 
         private char EmptySlotCharacter { get; set; }
 
-        public Yard()
+        private IIdGenerator IdGenerator { get; set; }
+
+        private IConfiguration Configuration { get; set; }
+
+        public MarshallingYard(IIdGenerator idGenerator, IConfiguration configuration)
         {
             SortingLineMaximumCapacity = Convert.ToInt32(ConfigurationManager.AppSettings["SortingLineMaximumCapacity"]);
             YardLocomotiveMaximumCapacity = Convert.ToInt32(ConfigurationManager.AppSettings["YardLocomotiveMaximumCapacity"]);
             EmptySlotCharacter = Convert.ToChar(ConfigurationManager.AppSettings["EmptySlotCharacter"]);
+            IdGenerator = idGenerator;
+            Configuration = configuration;
         }
 
-        public IYardmaster InitializeYard(IList<IOrderedEnumerable<char>> lines)
+        public IYardmaster InitializeYard(IEnumerable<IEnumerable<char>> lines)
         {
-            var yardLocomotive = new YardLocomotive(YardLocomotiveMaximumCapacity);
+            var yardLocomotive = new YardLocomotive(Configuration);
             var trainLine = new Line();
             var sortingLines = CreateSortingLines(lines);
             
@@ -41,9 +49,9 @@ namespace CNRailway.MarshallingYard
             return car;
         }
 
-        private ISortingLine CreateSortingLine(int id, IOrderedEnumerable<char> destinations)
+        private ISortingLine CreateSortingLine(int id, IEnumerable<char> destinations)
         {
-            var sortingLine = (ISortingLine) new SortingLine(id, SortingLineMaximumCapacity);
+            var sortingLine = new SortingLine(id, Configuration);
             foreach (var destination in destinations.Reverse())
             {
                 var car = CreateCar(destination);
@@ -56,12 +64,10 @@ namespace CNRailway.MarshallingYard
             return sortingLine;
         }
 
-        private IEnumerable<ISortingLine> CreateSortingLines(IList<IOrderedEnumerable<char>> lines)
+        private IEnumerable<ISortingLine> CreateSortingLines(IEnumerable<IEnumerable<char>> lines)
         {
-            for (var i = 1; i < lines.Count; i++)
-            {
-                var destinations = lines[i];
-                var sortingLine = CreateSortingLine(i, lines[i]);
+            foreach (var destinations in lines) {
+                var sortingLine = CreateSortingLine(IdGenerator.NewId, destinations);
                 yield return sortingLine;
             }
         }

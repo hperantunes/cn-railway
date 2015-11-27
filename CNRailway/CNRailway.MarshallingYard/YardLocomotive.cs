@@ -1,10 +1,13 @@
-﻿using System;
+﻿using CNRailway.Util;
+using System;
 using System.Collections.Generic;
 
 namespace CNRailway.MarshallingYard
 {
     public class YardLocomotive : IYardLocomotive, ICapped
     {
+        private IConfiguration Configuration { get; set; }
+
         private List<Car> Slots { get; set; }
 
         public int MaximumCapacity { get; private set; }
@@ -14,9 +17,10 @@ namespace CNRailway.MarshallingYard
             get { return MaximumCapacity.Equals(Slots.Count); }
         }
 
-        public YardLocomotive(int maximumCapacity)
+        public YardLocomotive(IConfiguration configuration)
         {
-            MaximumCapacity = maximumCapacity;
+            Configuration = configuration;
+            MaximumCapacity = configuration.YardLocomotiveMaximumCapacity;
             Slots = new List<Car>();
         }
 

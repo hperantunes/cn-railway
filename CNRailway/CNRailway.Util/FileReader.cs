@@ -5,7 +5,7 @@ namespace CNRailway.Util
 {
     public class FileReader : IFileReader
     {
-        public IEnumerable<string> ReadFrom(string file)
+        public IList<char[]> ReadFrom(string file)
         {
             if (!File.Exists(file))
             {
@@ -13,13 +13,17 @@ namespace CNRailway.Util
             }
 
             string line;
+            var lines = new List<char[]>();
+
             using (var reader = File.OpenText(file))
             {
                 while ((line = reader.ReadLine()) != null)
                 {
-                    yield return line;
+                    lines.Add(line.ToCharArray());
                 }
             }
+
+            return lines;
         }
     }
 }

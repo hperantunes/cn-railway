@@ -4,6 +4,6 @@ namespace CNRailway.Util
 {
     public interface IFileReader
     {
-        IEnumerable<string> ReadFrom(string file);
+        IList<char[]> ReadFrom(string file);
     }
 }

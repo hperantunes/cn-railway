@@ -1,9 +1,12 @@
-﻿using System;
+﻿using CNRailway.Util;
+using System;
 
 namespace CNRailway.MarshallingYard
 {
-    public class SortingLine : Line, IDecrementableLine, ICapped
+    public class SortingLine : Line, ISortingLine, IDecrementableLine, ICapped
     {
+        private IConfiguration Configuration { get; set; }
+
         public int Id { get; private set; }
 
         public int MaximumCapacity { get; private set; }
@@ -13,10 +16,11 @@ namespace CNRailway.MarshallingYard
             get { return MaximumCapacity.Equals(Track.Count); }
         }
 
-        public SortingLine(int id, int maximumCapacity)
+        public SortingLine(int id, IConfiguration configuration)
         {
             Id = id;
-            MaximumCapacity = maximumCapacity;
+            Configuration = configuration;
+            MaximumCapacity = configuration.SortingLineMaximumCapacity;
         }
 
         public override void AddCar(Car car)
@@ -31,6 +35,11 @@ namespace CNRailway.MarshallingYard
         public Car RemoveCar()
         {
             return Track.Pop();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString().PadLeft(MaximumCapacity, Configuration.EmptySlotCharacter);
         }
     }
 }
