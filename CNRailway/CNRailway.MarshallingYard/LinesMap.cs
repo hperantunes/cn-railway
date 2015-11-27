@@ -33,6 +33,7 @@ namespace CNRailway.MarshallingYard
             {
                 return new Tuple<IDecrementableLine, IIncrementableLine, int>(readyCars.Item1, TrainLine, readyCars.Item2);
             }
+
             return null;
         }
 
@@ -53,9 +54,10 @@ namespace CNRailway.MarshallingYard
 
             // Count how many cars with the correct destination are in sequence on top
             var depths = line.Value;
-            int amount = 1;
+            var amount = 1;
             for (var i = 0; i < depths.Count - 1; i++)
             {
+                // If the next car with the correct destination is not in sequence, stop counting
                 if (depths[i + 1] - depths[i] > 1)
                 {
                     break;

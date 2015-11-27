@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CNRailway.Util;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using CNRailway.Util;
 
 namespace CNRailway.MarshallingYard
 {
@@ -16,6 +17,8 @@ namespace CNRailway.MarshallingYard
 
         private IYardLocomotive YardLocomotive { get; set; }
 
+        private bool Initialized { get; set; }
+
         public MarshallingYard(IIdGenerator idGenerator, IConfiguration configuration)
         {
             IdGenerator = idGenerator;
@@ -29,11 +32,18 @@ namespace CNRailway.MarshallingYard
             YardLocomotive = new YardLocomotive(Configuration);
 
             var yardmaster = new Yardmaster(YardLocomotive);
+            Initialized = true;
+
             return yardmaster;
         }
 
         public ILinesMap GetLinesMap(char destination)
         {
+            if (!Initialized)
+            {
+                throw new InvalidOperationException();
+            }
+
             var linesMap = new LinesMap(TrainLine, SortingLines, destination);
             return linesMap;
         }
