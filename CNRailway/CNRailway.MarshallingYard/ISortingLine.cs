@@ -1,6 +1,6 @@
 ﻿namespace CNRailway.MarshallingYard
 {
-    public interface ISortingLine : ILine, IIncrementableLine
+    public interface ISortingLine
     {
         int Id { get; }
     }

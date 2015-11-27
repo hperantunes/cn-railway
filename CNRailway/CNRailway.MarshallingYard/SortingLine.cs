@@ -3,13 +3,18 @@ using System;
 
 namespace CNRailway.MarshallingYard
 {
-    public class SortingLine : Line, ISortingLine, IDecrementableLine, ICapped
+    public class SortingLine : Line, ISortingLine, IDecrementableLine, ICapped, INamed
     {
         private IConfiguration Configuration { get; set; }
 
         public int Id { get; private set; }
 
         public int MaximumCapacity { get; private set; }
+
+        public string Name
+        {
+            get { return $"{Constants.Line} {Id}"; }
+        }
 
         public bool IsFull
         {
