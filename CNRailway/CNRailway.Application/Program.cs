@@ -29,6 +29,8 @@ namespace CNRailway.Application
             var idGenerator = new SequentialIdGenerator();
             var yard = new MarshallingYard.MarshallingYard(idGenerator, configuration);
             var yardmaster = yard.InitializeYard(lines);
+
+            var destination = ui.GetDestination();
         }
     }
 }

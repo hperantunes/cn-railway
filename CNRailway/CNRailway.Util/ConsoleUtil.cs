@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
+using System.Linq;
 
 namespace CNRailway.Util
 {
@@ -37,21 +37,62 @@ namespace CNRailway.Util
             return Path.Combine(directory, file);
         }
 
+        public char GetDestination()
+        {
+            var input = PromptDestination();
+            var destination = input.ToCharArray().First();
+            return destination;
+        }
+
         public void ShowErrorMessage(string message)
         {
+            WriteError(message);
+            Wait();
+        }
+
+        private void Write(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        private void WriteError(string message)
+        {
             Console.Error.WriteLine(message);
+        }
+
+        private string Read()
+        {
+            return Console.ReadLine();
+        }
+
+        private void Wait()
+        {
             Console.ReadKey();
         }
 
         private void ShowCurrentValue(string label, string value)
         {
-            Console.WriteLine($"{label} is currently set as {value}.");
+            Write($"{label} is currently set as {value}.");
         }
 
         private string PromptNewValue(string label)
         {
-            Console.WriteLine($"Set a new {label} or press ENTER to keep:");
-            return Console.ReadLine();
+            Write($"Set a new {label} or press ENTER to keep:");
+            return Read();
+        }
+
+        private string PromptDestination()
+        {
+            Write("Type one character that represents the desired destination and press ENTER:");
+
+            var input = Read();
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                WriteError("Invalid input.");
+                return PromptDestination();
+            }
+
+            return input;
         }
 
     }
