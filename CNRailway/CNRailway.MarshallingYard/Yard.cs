@@ -11,13 +11,13 @@ namespace CNRailway.MarshallingYard
 
         private IConfiguration Configuration { get; set; }
 
-        private IEnumerable<ISortingLine> SortingLines { get; set; }
-
-        private ILine TrainLine { get; set; }
+        private IList<ISortingLine> SortingLines { get; set; }
 
         private IYardLocomotive YardLocomotive { get; set; }
 
         private bool Initialized { get; set; }
+
+        public ILine TrainLine { get; private set; }
 
         public Yard(IIdGenerator idGenerator, IConfiguration configuration, IEnumerable<IEnumerable<char>> lines)
         {
@@ -48,6 +48,11 @@ namespace CNRailway.MarshallingYard
             return linesMap;
         }
 
+        public IEnumerable<ISortingLine> GetSortingLines()
+        {
+            return SortingLines;
+        }
+
         private Car CreateCar(char destination)
         {
             if (Configuration.EmptySlotCharacter.Equals(destination))
@@ -74,13 +79,15 @@ namespace CNRailway.MarshallingYard
             return sortingLine;
         }
 
-        private IEnumerable<ISortingLine> CreateSortingLines(IEnumerable<IEnumerable<char>> lines)
+        private IList<ISortingLine> CreateSortingLines(IEnumerable<IEnumerable<char>> lines)
         {
+            var sortingLines = new List<ISortingLine>();
             foreach (var destinations in lines)
             {
                 var sortingLine = CreateSortingLine(IdGenerator.NewId, destinations);
-                yield return sortingLine;
+                sortingLines.Add(sortingLine);
             }
+            return sortingLines;
         }
     }
 }
