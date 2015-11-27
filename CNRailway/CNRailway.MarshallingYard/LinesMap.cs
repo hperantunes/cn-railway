@@ -56,7 +56,7 @@ namespace CNRailway.MarshallingYard
             int amount = 1;
             for (var i = 0; i < depths.Count - 1; i++)
             {
-                if (depths[i + 1] - depths[i] > 0)
+                if (depths[i + 1] - depths[i] > 1)
                 {
                     break;
                 }
