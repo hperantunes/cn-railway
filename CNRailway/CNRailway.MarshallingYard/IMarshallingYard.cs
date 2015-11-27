@@ -5,6 +5,6 @@ namespace CNRailway.MarshallingYard
 {
     public interface IMarshallingYard
     {
-        IYardmaster InitializeYard(IEnumerable<IEnumerable<char>> lines);
+        IYardmaster Initialize(IEnumerable<IEnumerable<char>> lines);
     }
 }

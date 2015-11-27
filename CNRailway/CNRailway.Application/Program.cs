@@ -11,14 +11,13 @@ namespace CNRailway.Application
             var configuration = new Configuration();
 
             IUserInterface ui = new ConsoleUtil(configuration);
-            var file = ui.GetFullFilePath();
+            var filePath = ui.GetFullFilePath();
 
-            IFileReader reader = new FileReader();
-
-            IEnumerable<IEnumerable<char>> lines;
+            IFileReader fileReader = new FileReader();
+            IEnumerable<IEnumerable<char>> fileContents;
             try
             {
-                lines = reader.ReadFrom(file);
+                fileContents = fileReader.ReadFrom(filePath);
             }
             catch (ArgumentException e)
             {
@@ -28,9 +27,11 @@ namespace CNRailway.Application
 
             var idGenerator = new SequentialIdGenerator();
             var yard = new MarshallingYard.MarshallingYard(idGenerator, configuration);
-            var yardmaster = yard.InitializeYard(lines);
+            var yardmaster = yard.Initialize(fileContents);
 
             var destination = ui.GetDestination();
+
+            var steps = yardmaster.AssembleTrainToDestination(destination);
         }
     }
 }

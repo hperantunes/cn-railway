@@ -9,26 +9,21 @@ namespace CNRailway.MarshallingYard
 {
     public class MarshallingYard : IMarshallingYard
     {
-        private int SortingLineMaximumCapacity { get; set; }
-
-        private int YardLocomotiveMaximumCapacity { get; set; }
-
-        private char EmptySlotCharacter { get; set; }
-
         private IIdGenerator IdGenerator { get; set; }
 
         private IConfiguration Configuration { get; set; }
 
+        private IFileReader FileReader { get; set; }
+
+        private IUserInterface UserInterface { get; set; }
+
         public MarshallingYard(IIdGenerator idGenerator, IConfiguration configuration)
         {
-            SortingLineMaximumCapacity = Convert.ToInt32(ConfigurationManager.AppSettings["SortingLineMaximumCapacity"]);
-            YardLocomotiveMaximumCapacity = Convert.ToInt32(ConfigurationManager.AppSettings["YardLocomotiveMaximumCapacity"]);
-            EmptySlotCharacter = Convert.ToChar(ConfigurationManager.AppSettings["EmptySlotCharacter"]);
             IdGenerator = idGenerator;
             Configuration = configuration;
         }
 
-        public IYardmaster InitializeYard(IEnumerable<IEnumerable<char>> lines)
+        public IYardmaster Initialize(IEnumerable<IEnumerable<char>> lines)
         {
             var yardLocomotive = new YardLocomotive(Configuration);
             var trainLine = new Line();
@@ -40,7 +35,7 @@ namespace CNRailway.MarshallingYard
 
         private Car CreateCar(char destination)
         {
-            if (EmptySlotCharacter.Equals(destination))
+            if (Configuration.EmptySlotCharacter.Equals(destination))
             {
                 return null;
             }
