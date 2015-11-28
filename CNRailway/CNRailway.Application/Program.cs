@@ -51,6 +51,7 @@ namespace CNRailway.Application
 
                 // Show list of steps
                 ui.BeginSection();
+                ui.ShowMessage($"Selected destination: {destination}");
                 ui.ShowMessage("Movements:");
                 ui.ShowList(steps.Select(step => step.ToString()));
 
