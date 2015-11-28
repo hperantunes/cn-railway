@@ -1,12 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CNRailway.MarshallingYard;
-using CNRailway.Util;
-using System;
+﻿using CNRailway.Util;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
 
 namespace CNRailway.MarshallingYard
 {
@@ -15,7 +11,10 @@ namespace CNRailway.MarshallingYard
     {
         private IYardmaster Yardmaster { get; set; }
         private IYard Yard { get; set; }
+        private IIdGenerator IdGenerator { get; set; }
         private char Destination { get; set; }
+
+        private Mock<IConfiguration> Configuration { get; set; }
 
         [TestInitialize]
         public void Init()
@@ -23,17 +22,18 @@ namespace CNRailway.MarshallingYard
             var lines = new List<char[]>
             {
                 "00ABC".ToCharArray(),
-                "0BCAD".ToCharArray(),
+                "0BCAD".ToCharArray()
             };
 
-            var configuration = new Mock<IConfiguration>();
-            configuration.SetupGet(conf => conf.EmptySlotCharacter).Returns('0');
-            configuration.SetupGet(conf => conf.SortingLineMaximumCapacity).Returns(5);
-            configuration.SetupGet(conf => conf.YardLocomotiveMaximumCapacity).Returns(1);
+            Configuration = new Mock<IConfiguration>();
+            Configuration.SetupGet(conf => conf.EmptySlotCharacter).Returns('0');
+            Configuration.SetupGet(conf => conf.SortingLineMaximumCapacity).Returns(5);
+            Configuration.SetupGet(conf => conf.YardLocomotiveMaximumCapacity).Returns(1);
 
             Destination = 'A';
+            IdGenerator = new SequentialIdGenerator();
 
-            Yard = new Yard(new SequentialIdGenerator(), configuration.Object, lines);
+            Yard = new Yard(IdGenerator, Configuration.Object, lines);
             Yardmaster = Yard.Initialize();
         }
 
@@ -44,15 +44,15 @@ namespace CNRailway.MarshallingYard
             var map = Yard.GetLinesMap(Destination);
 
             // act
-            var steps = Yardmaster.AssembleTrain(map);
+            Yardmaster.AssembleTrain(map);
 
             // assert
             var trainLine = Yard.TrainLine;
             Assert.IsNotNull(trainLine);
 
-            var destinations = trainLine.ToString().ToCharArray();
-            Assert.AreEqual(2, destinations.Count());
-            Assert.IsTrue(destinations.All(destination => Destination.Equals(destination)));
+            var cars = trainLine.ToString().ToCharArray();
+            Assert.AreEqual(2, cars.Count());
+            Assert.IsTrue(cars.All(car => Destination.Equals(car)));
         }
 
         [TestMethod]
@@ -68,6 +68,27 @@ namespace CNRailway.MarshallingYard
             var sortingLines = Yard.GetSortingLines();
             Assert.IsNotNull(sortingLines);
             Assert.IsFalse(sortingLines.Any(line => line.ContainsCarToDestination(Destination)));
+        }
+
+        [TestMethod]
+        public void AssembleTrain_NotEnoughRoomInSortingLines_DoesNotMakeAnyMovement()
+        {
+            // arrange
+            var lines = new List<char[]>
+            {
+                "0BDCA".ToCharArray(),
+                "0CBDA".ToCharArray(),
+                "0DCBA".ToCharArray()
+            };
+            var yard = new Yard(IdGenerator, Configuration.Object, lines);
+            var yardmaster = yard.Initialize();
+            var map = yard.GetLinesMap(Destination);
+
+            // act
+            var steps = yardmaster.AssembleTrain(map);
+
+            // assert
+            Assert.IsFalse(steps.Any());
         }
     }
 }

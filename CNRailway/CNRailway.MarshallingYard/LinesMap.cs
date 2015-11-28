@@ -116,8 +116,11 @@ namespace CNRailway.MarshallingYard
                 .Where(kvp => !kvp.Key.IsFull)
                 .OrderBy(kvp => Math.Abs(sortingLineId - kvp.Key.Id));
 
+            var notEnoughOpenSlots = lines.Sum(kvp => kvp.Key.OpenSlots) < slots;
+
             // No suitable lines
-            if (!lines.Any()) {
+            if (!lines.Any() || notEnoughOpenSlots)
+            {
                 return null;
             }
 
