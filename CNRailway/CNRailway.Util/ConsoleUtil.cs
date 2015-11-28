@@ -74,7 +74,8 @@ namespace CNRailway.Util
 
         public void BeginSection()
         {
-            Write(string.Concat(new string(Constants.UI.SectionSeparator, Constants.UI.SectionSeparatorSize), Environment.NewLine));
+            Write(new string(Constants.UI.SectionSeparator, Constants.UI.SectionSeparatorSize));
+            Write(Environment.NewLine);
         }
 
         public string GetFullFilePath()
@@ -94,6 +95,9 @@ namespace CNRailway.Util
         {
             BeginSection();
             Write("Press the ESCAPE to exit or any other key to restart the process...");
+            Write(new string(Constants.UI.InstanceSeparator, Constants.UI.SectionSeparatorSize));
+            Write(Environment.NewLine);
+
             return Console.ReadKey(true).Key == ConsoleKey.Escape;
         }
 

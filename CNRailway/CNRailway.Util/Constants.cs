@@ -15,7 +15,8 @@
         {
             public const string ItemListBullet = "> ";
             public const char SectionSeparator = '-';
-            public const int SectionSeparatorSize = 20;
+            public const char InstanceSeparator = '=';
+            public const int SectionSeparatorSize = 40;
         }
     }
 }
