@@ -1,6 +1,7 @@
 ﻿using CNRailway.MarshallingYard;
 using CNRailway.Util;
 using System.Linq;
+using System;
 
 namespace CNRailway.Application
 {
@@ -16,13 +17,26 @@ namespace CNRailway.Application
 
             do
             {
+                ui.ShowMessage("Welcome to the Marshalling Yard!");
+
                 // Load sorting lines from file or prompt the user for file location
+                ui.BeginSection();
                 var lines = ui.GetSortingLines();
-                var yard = new Yard(idGenerator, configuration, lines);
+                IYard yard = null;
+                try
+                {
+                    yard = new Yard(idGenerator, configuration, lines);
+                }
+                catch (InvalidOperationException)
+                {
+                    var message = "Cannot create marshalling yard! Check the application's parameters.";
+                    ui.ShowErrorMessage(message);
+                    break;
+                }
+
                 var yardmaster = yard.Initialize();
 
                 // Show initial sorting lines
-                ui.BeginSection();
                 ui.ShowMessage("Initial sorting lines:");
                 var sortingLines = yard.GetSortingLines().Select(line => line.ToString());
                 ui.ShowList(sortingLines);
