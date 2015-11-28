@@ -20,6 +20,11 @@ namespace CNRailway.MarshallingYard
             Track = new Stack<Car>();
         }
 
+        public bool ContainsCarToDestination(char destination)
+        {
+            return Track.Any(car => destination.Equals(car.Destination));
+        }
+
         public virtual void AddCar(Car car)
         {
             car.Position = Track.Count;
