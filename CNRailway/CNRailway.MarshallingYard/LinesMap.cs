@@ -130,11 +130,13 @@ namespace CNRailway.MarshallingYard
         private Tuple<IIncrementableLine, int> FindSuitableDestinationLine(int sortingLineId, int slots)
         {
             // Get all other sorting lines that are not full, ordered
-            // by the Id closest to the id of the original line
+            // by the Id closest to the id of the original line, with fewer
+            // cars into it
             var lines = SortingLinesMap
                 .Where(kvp => !sortingLineId.Equals(kvp.Key.Id))
                 .Where(kvp => !kvp.Key.IsFull)
-                .OrderBy(kvp => Math.Abs(sortingLineId - kvp.Key.Id));
+                .OrderBy(kvp => Math.Abs(sortingLineId - kvp.Key.Id))
+                .OrderBy(kvp => kvp.Key.Count);
 
             var notEnoughOpenSlots = lines.Sum(kvp => kvp.Key.OpenSlots) < slots;
 
