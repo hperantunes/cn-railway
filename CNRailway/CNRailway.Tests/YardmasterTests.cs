@@ -34,7 +34,7 @@ namespace CNRailway.MarshallingYard
             IdGenerator = new SequentialIdGenerator();
 
             Yard = new Yard(IdGenerator, Configuration.Object, lines);
-            Yardmaster = Yard.Initialize();
+            Yardmaster = Yard.Yardmaster;
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace CNRailway.MarshallingYard
                 "0DCBA".ToCharArray()
             };
             var yard = new Yard(IdGenerator, Configuration.Object, lines);
-            var yardmaster = yard.Initialize();
+            var yardmaster = yard.Yardmaster;
             var map = yard.GetLinesMap(Destination);
 
             // act

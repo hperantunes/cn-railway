@@ -4,17 +4,33 @@ using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
+    /// <summary>
+    /// The Yardmaster is responsible for assembling trains bound to a given 
+    /// destination into the train line
+    /// </summary>
     public class Yardmaster : IYardmaster
     {
         private IYardLocomotive YardLocomotive { get; set; }
 
         private ILine TrainLine { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="yardLocomotive">A locomotive that will move cars</param>
         public Yardmaster(IYardLocomotive yardLocomotive)
         {
             YardLocomotive = yardLocomotive;
         }
 
+        /// <summary>
+        /// Assemble trains bound to a given destination into the train line
+        /// </summary>
+        /// <param name="map">A map to provide assemblage instructions</param>
+        /// <returns>
+        /// A collection of all movements that were executed when
+        /// assembling the train
+        /// </returns>
         public IEnumerable<IMovement> AssembleTrain(ILinesMap map)
         {
             var movements = new List<IMovement>();

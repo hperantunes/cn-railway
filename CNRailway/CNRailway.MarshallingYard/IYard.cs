@@ -5,7 +5,7 @@ namespace CNRailway.MarshallingYard
     public interface IYard
     {
         ILine TrainLine { get; }
-        IYardmaster Initialize();
+        IYardmaster Yardmaster { get; }
         ILinesMap GetLinesMap(char destination);
         IEnumerable<ISortingLine> GetSortingLines();
     }

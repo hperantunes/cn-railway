@@ -10,6 +10,12 @@ namespace CNRailway.MarshallingYard
 
         private ILine TrainLine { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="trainLine">The train line</param>
+        /// <param name="sortingLines">A collection of sorting lines</param>
+        /// <param name="destination">A given destination to provide instructions for</param>
         public LinesMap(ILine trainLine, IEnumerable<ISortingLine> sortingLines, char destination)
         {
             TrainLine = trainLine;
@@ -22,6 +28,11 @@ namespace CNRailway.MarshallingYard
                                 .ToList());
         }
 
+        /// <summary>
+        /// Updates the dephts of the cars in a given sorting line after cars are added/removed to it
+        /// </summary>
+        /// <param name="line">The given sorting line</param>
+        /// <param name="amount">The depth increase/decrease</param>
         public void UpdateDepths(ISortingLine line, int amount)
         {
             if (line == null)
@@ -34,6 +45,15 @@ namespace CNRailway.MarshallingYard
             SortingLinesMap[line].AddRange(depths.Where(depth => depth >= 0));
         }
 
+        /// <summary>
+        /// Get an instruction to execute the next movement to remove 
+        /// a car from the sorting line
+        /// </summary>
+        /// <returns>
+        /// A tuple where the first item is the origin line, the 
+        /// second item is the destination line and the third item is the 
+        /// number of cars that must be moved from the origin line
+        /// </returns>
         public Tuple<IDecrementableLine, IIncrementableLine, int> GetInstruction()
         {
             // There are no cars to the correct destination in any sorting

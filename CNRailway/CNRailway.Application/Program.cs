@@ -34,7 +34,7 @@ namespace CNRailway.Application
                     break;
                 }
 
-                var yardmaster = yard.Initialize();
+                var yardmaster = yard.Yardmaster;
 
                 // Show initial sorting lines
                 ui.ShowMessage("Initial sorting lines:");

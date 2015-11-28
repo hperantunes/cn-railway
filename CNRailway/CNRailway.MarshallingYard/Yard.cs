@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace CNRailway.MarshallingYard
 {
+    /// <summary>
+    /// The Yard represents the Marshalling Yard
+    /// </summary>
     public class Yard : IYard
     {
         private IIdGenerator IdGenerator { get; set; }
@@ -15,39 +18,50 @@ namespace CNRailway.MarshallingYard
 
         private IYardLocomotive YardLocomotive { get; set; }
 
-        private bool Initialized { get; set; }
+        /// <summary>
+        /// An object responsible for assembling cars into the train line
+        /// </summary>
+        public IYardmaster Yardmaster { get; private set; }
 
+        /// <summary>
+        /// The train line
+        /// </summary>
         public ILine TrainLine { get; private set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="idGenerator">A generator to create ids to sorting lines</param>
+        /// <param name="configuration">A configuration object</param>
+        /// <param name="lines">The character representation of all sorting lines</param>
         public Yard(IIdGenerator idGenerator, IConfiguration configuration, IEnumerable<IEnumerable<char>> lines)
         {
             IdGenerator = idGenerator;
             Configuration = configuration;
             SortingLines = CreateSortingLines(lines);
-        }
-
-        public IYardmaster Initialize()
-        {
-            TrainLine = new TrainLine();
             YardLocomotive = new YardLocomotive(Configuration);
-
-            var yardmaster = new Yardmaster(YardLocomotive);
-            Initialized = true;
-
-            return yardmaster;
+            Yardmaster = new Yardmaster(YardLocomotive);
+            TrainLine = new TrainLine();
         }
 
+        /// <summary>
+        /// Gets a lines map
+        /// </summary>
+        /// <param name="destination">The given destination</param>
+        /// <returns>
+        /// An object that provides instructions on what moviments to make to 
+        /// assemble cars bound to a given destination into the train line
+        /// </returns>
         public ILinesMap GetLinesMap(char destination)
         {
-            if (!Initialized)
-            {
-                throw new InvalidOperationException();
-            }
-
             var linesMap = new LinesMap(TrainLine, SortingLines, destination);
             return linesMap;
         }
 
+        /// <summary>
+        /// Gets the current sorting lines
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ISortingLine> GetSortingLines()
         {
             return SortingLines;
