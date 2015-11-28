@@ -52,7 +52,6 @@ namespace CNRailway.Util
                 return GetSortingLines(true);
             }
 
-            BeginSection();
             return fileContents;
         }
 
