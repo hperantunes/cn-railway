@@ -26,15 +26,7 @@ namespace CNRailway.Util
 
         public IEnumerable<IEnumerable<char>> GetSortingLines()
         {
-            try
-            {
-                return GetSortingLines(false);
-            }
-            catch (ArgumentException e)
-            {
-                ShowErrorMessage(e.Message);
-                return GetSortingLines(true);
-            }
+            return GetSortingLines(false);
         }
 
         private IEnumerable<IEnumerable<char>> GetSortingLines(bool forcePromptFileLocation)
@@ -46,10 +38,21 @@ namespace CNRailway.Util
             }
             else
             {
-                path = GetFullFilePath();
+                path = GetFilePath();
             }
-            var fileContents = FileReader.ReadFrom(path);
 
+            IList<char[]> fileContents;
+            try
+            {
+                fileContents = FileReader.ReadFrom(path);
+            }
+            catch (ArgumentException e)
+            {
+                ShowErrorMessage(e.Message);
+                return GetSortingLines(true);
+            }
+
+            BeginSection();
             return fileContents;
         }
 
@@ -78,14 +81,6 @@ namespace CNRailway.Util
             Write(Environment.NewLine);
         }
 
-        public string GetFullFilePath()
-        {
-            var directory = GetValue(Constants.Labels.Directory);
-            var file = GetValue(Constants.Labels.FileName);
-
-            return Path.Combine(directory, file);
-        }
-
         public void Wait()
         {
             ReadKey();
@@ -99,6 +94,14 @@ namespace CNRailway.Util
             Write(Environment.NewLine);
 
             return Console.ReadKey(true).Key == ConsoleKey.Escape;
+        }
+
+        private string GetFilePath()
+        {
+            var directory = GetValue(Constants.Labels.Directory);
+            var file = GetValue(Constants.Labels.FileName);
+
+            return Path.Combine(directory, file);
         }
 
         private string GetValue(string label)
@@ -135,7 +138,7 @@ namespace CNRailway.Util
 
         private string PromptNewValue(string label)
         {
-            Write($"Set a new {label}:");
+            Write($"Set the {label}:");
             return Read();
         }
 
